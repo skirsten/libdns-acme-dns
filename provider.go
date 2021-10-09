@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 	"path"
 	"regexp"
 	"strings"
@@ -67,7 +68,14 @@ func (p *Provider) updateRecords(ctx context.Context, zone string, records []lib
 		Value:     rec.Value,
 	})
 
-	request, err := http.NewRequestWithContext(ctx, "POST", path.Join(p.Endpoint, "update"), bytes.NewBuffer(body))
+	url, err := url.Parse(p.Endpoint)
+	if err != nil {
+		return nil, err
+	}
+
+	url.Path = path.Join(url.Path, "update")
+
+	request, err := http.NewRequestWithContext(ctx, "POST", url.String(), bytes.NewBuffer(body))
 	if err != nil {
 		return nil, err
 	}
