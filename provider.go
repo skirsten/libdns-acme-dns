@@ -58,7 +58,7 @@ func (p *Provider) updateRecords(ctx context.Context, zone string, records []lib
 
 	rec := records[0]
 
-	if rec.Type != "TXT" || !strings.HasPrefix(rec.Name, "_acme_challenge") || !validTXT(rec.Value) {
+	if rec.Type != "TXT" || !strings.HasPrefix(rec.Name, "_acme-challenge") || !validTXT(rec.Value) {
 		return nil, fmt.Errorf("not implemented")
 	}
 
